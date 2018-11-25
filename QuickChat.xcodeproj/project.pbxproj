@@ -18,6 +18,9 @@
 		B85A782A21AA975100FA04A9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B85A782921AA975100FA04A9 /* CoreLocation.framework */; };
 		B85A782C21AA975A00FA04A9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B85A782B21AA975A00FA04A9 /* SystemConfiguration.framework */; };
 		B85A782E21AA976700FA04A9 /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B85A782D21AA976700FA04A9 /* PushKit.framework */; };
+		B85A783121AAAFAE00FA04A9 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A783021AAAFAE00FA04A9 /* WelcomeViewController.swift */; };
+		B85A783321AAD70000FA04A9 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A783221AAD70000FA04A9 /* RegisterViewController.swift */; };
+		B85A783521AADDB400FA04A9 /* NavigationSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A783421AADDB400FA04A9 /* NavigationSingleton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +41,9 @@
 		B85A782921AA975100FA04A9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		B85A782B21AA975A00FA04A9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B85A782D21AA976700FA04A9 /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
+		B85A783021AAAFAE00FA04A9 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		B85A783221AAD70000FA04A9 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		B85A783421AADDB400FA04A9 /* NavigationSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSingleton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +102,7 @@
 		B84E766521A8072100704541 /* QuickChat */ = {
 			isa = PBXGroup;
 			children = (
+				B85A782F21AAAF9700FA04A9 /* Controllers */,
 				B85A782621AA94C900FA04A9 /* Utils */,
 				B84E767A21A807C200704541 /* Supporting Files */,
 				B85A782121AA7A7E00FA04A9 /* Storyboards */,
@@ -130,8 +137,18 @@
 			isa = PBXGroup;
 			children = (
 				B85A782721AA94D900FA04A9 /* Constants.swift */,
+				B85A783421AADDB400FA04A9 /* NavigationSingleton.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		B85A782F21AAAF9700FA04A9 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B85A783021AAAFAE00FA04A9 /* WelcomeViewController.swift */,
+				B85A783221AAD70000FA04A9 /* RegisterViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -282,6 +299,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B84E766721A8072100704541 /* AppDelegate.swift in Sources */,
+				B85A783321AAD70000FA04A9 /* RegisterViewController.swift in Sources */,
+				B85A783121AAAFAE00FA04A9 /* WelcomeViewController.swift in Sources */,
+				B85A783521AADDB400FA04A9 /* NavigationSingleton.swift in Sources */,
 				B85A782321AA7CE800FA04A9 /* RNCryptor.swift in Sources */,
 				B85A782821AA94D900FA04A9 /* Constants.swift in Sources */,
 			);
