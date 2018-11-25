@@ -2,9 +2,10 @@
 platform :ios, '9.0'
 
 target 'QuickChat' do
-  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
-  # use_frameworks!
+
+  # Pods for QuickChat
   
+  #JSQMessages should be replaced with MessageKit since it is deprecated
   pod 'JSQMessagesViewController', '7.3.3'
   pod 'IDMPhotoBrowser'
   pod 'Firebase/Database'
@@ -12,7 +13,5 @@ target 'QuickChat' do
   pod 'IQAudioRecorderController'
   pod 'SinchRTC'
   pod 'ProgressHUD'
-  
-# Pods for QuickChat
 
 end
