@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>901336187176-h3arsvbh5cs1agu4f4mqr3dipn8trgj3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.901336187176-h3arsvbh5cs1agu4f4mqr3dipn8trgj3</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC86gzjIc9pJZQReG3Uo_LwT6lRLRmov7M</string>
+	<key>GCM_SENDER_ID</key>
+	<string>901336187176</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.id.training.QuickChat</string>
+	<key>PROJECT_ID</key>
+	<string>iulischat1</string>
+	<key>STORAGE_BUCKET</key>
+	<string>iulischat1.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:901336187176:ios:1273bcf2a1f206e5</string>
+	<key>DATABASE_URL</key>
+	<string>https://iulischat1.firebaseio.com</string>
+</dict>
+</plist>
