@@ -58,33 +58,50 @@ class RegisterViewController: UIViewController {
         newUser?.password = password as NSString
         newUser?.name = username as NSString
         
-        if avatarImage == nil {
-            newUser?.setProperty("Avatar", object: "")
+        let uploadableAvatarImage: UIImage
+        if let avatarImage = avatarImage {
+            uploadableAvatarImage = avatarImage
         } else {
-            // upload avatar image
+            uploadableAvatarImage = UIImage.createImage(text: username)
         }
         
+        let data = uploadableAvatarImage.jpegData(compressionQuality: 1)
         
-        
-        backendless?.userService.register(newUser, response: { _ in
-            self.emailTextField.text = nil
-            self.passwordTextField.text = nil
-            self.usernameTextField.text = nil
-            // dismiss keyboard
-            self.view.endEditing(false)
-            // login user
-            self.loginUser(email: email, password: password)
-        }, error: { (fault) in
-            if let err = fault {
-                ProgressHUD.showError("Error registering user \(err.detail ?? "")")
-            }
+        backendless?.file.uploadFile("/users/\(email).jpg",
+            content: data,
+            overwriteIfExist: true,
+            response: { [unowned self] (uploadFile) in
+                print("File uploaded: \(String(describing: uploadFile?.fileURL))")
+                self.newUser?.setProperty("Avatar", object: uploadFile?.fileURL)
+                
+                backendless?.userService.register(self.newUser, response: { _ in
+                    self.emailTextField.text = nil
+                    self.passwordTextField.text = nil
+                    self.usernameTextField.text = nil
+                    // dismiss keyboard
+                    self.view.endEditing(false)
+                    // login user
+                    self.loginUser(email: email, password: password)
+                }, error: { (fault) in
+                    if let err = fault {
+                        ProgressHUD.showError("Error registering user \(err.detail ?? "")")
+                    }
+                })
+                
+            },
+            error: { (fault) in
+                if let err = fault {
+                    ProgressHUD.showError("Couldn't upload avatar: \(err.detail ?? "")")
+                }
         })
+        
+        
+        
     }
     
     private func loginUser(email: String, password: String) {
         
         backendless?.userService.login(email, password: password, response: { _ in
-            // go to app
             // go to app
             DispatchQueue.main.async { [unowned self] in
                 NavigationSingleton.instance.goToApp(viewController: self)
@@ -96,4 +113,7 @@ class RegisterViewController: UIViewController {
             }
         })
     }
+    
+    
+    
 }

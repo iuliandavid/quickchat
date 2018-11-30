@@ -21,6 +21,7 @@
 		B85A783121AAAFAE00FA04A9 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A783021AAAFAE00FA04A9 /* WelcomeViewController.swift */; };
 		B85A783321AAD70000FA04A9 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A783221AAD70000FA04A9 /* RegisterViewController.swift */; };
 		B85A783521AADDB400FA04A9 /* NavigationSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A783421AADDB400FA04A9 /* NavigationSingleton.swift */; };
+		B85A783721B1911A00FA04A9 /* UIImage+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A783621B1911A00FA04A9 /* UIImage+extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		B85A783021AAAFAE00FA04A9 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		B85A783221AAD70000FA04A9 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		B85A783421AADDB400FA04A9 /* NavigationSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSingleton.swift; sourceTree = "<group>"; };
+		B85A783621B1911A00FA04A9 /* UIImage+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +140,7 @@
 			children = (
 				B85A782721AA94D900FA04A9 /* Constants.swift */,
 				B85A783421AADDB400FA04A9 /* NavigationSingleton.swift */,
+				B85A783621B1911A00FA04A9 /* UIImage+extensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B84E766721A8072100704541 /* AppDelegate.swift in Sources */,
+				B85A783721B1911A00FA04A9 /* UIImage+extensions.swift in Sources */,
 				B85A783321AAD70000FA04A9 /* RegisterViewController.swift in Sources */,
 				B85A783121AAAFAE00FA04A9 /* WelcomeViewController.swift in Sources */,
 				B85A783521AADDB400FA04A9 /* NavigationSingleton.swift in Sources */,
