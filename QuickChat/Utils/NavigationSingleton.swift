@@ -8,15 +8,18 @@
 
 import UIKit
 
+//swiftlint:disable trailing_whitespace
+//swiftlint:disable vertical_whitespace
 class NavigationSingleton {
    static let instance = NavigationSingleton()
     
     func goToApp(viewController: UIViewController) {
-        guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RecentsVC") as? UITabBarController else {
+        guard let tabVc = UIStoryboard(name: "Main", bundle: nil)
+            .instantiateViewController(withIdentifier: "RecentsVC") as? UITabBarController else {
             return
         }
         
-        vc.selectedIndex = 0
-        viewController.present(vc, animated: true, completion: nil)
+        tabVc.selectedIndex = 0
+        viewController.present(tabVc, animated: true, completion: nil)
     }
 }

@@ -8,6 +8,8 @@
 
 import UIKit
 
+//swiftlint:disable trailing_whitespace
+//swiftlint:disable vertical_whitespace
 class RegisterViewController: UIViewController {
 
     @IBOutlet weak var emailTextField: UITextField!
@@ -62,9 +64,14 @@ class RegisterViewController: UIViewController {
             // upload avatar image
         }
         
-        ProgressHUD.dismiss()
         
-        backendless?.userService.register(newUser, response: { (registeredUser) in
+        
+        backendless?.userService.register(newUser, response: { _ in
+            self.emailTextField.text = nil
+            self.passwordTextField.text = nil
+            self.usernameTextField.text = nil
+            // dismiss keyboard
+            self.view.endEditing(false)
             // login user
             self.loginUser(email: email, password: password)
         }, error: { (fault) in
@@ -75,10 +82,14 @@ class RegisterViewController: UIViewController {
     }
     
     private func loginUser(email: String, password: String) {
-
-        backendless?.userService.login(email, password: password, response: { (user) in
+        
+        backendless?.userService.login(email, password: password, response: { _ in
             // go to app
-            
+            // go to app
+            DispatchQueue.main.async { [unowned self] in
+                NavigationSingleton.instance.goToApp(viewController: self)
+                ProgressHUD.dismiss()
+            }
         }, error: { (fault) in
             if let err = fault {
                 ProgressHUD.showError("Couldn't login: \(err.detail ?? "")")

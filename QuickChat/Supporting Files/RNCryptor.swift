@@ -29,7 +29,7 @@ import Foundation
 import Cryptor
 #endif
 
-
+// swiftlint:disable all
 /// The `RNCryptorType` protocol defines generic API to a mutable,
 /// incremental, password-based encryptor or decryptor. Its generic
 /// usage is as follows:
@@ -44,7 +44,7 @@ import Cryptor
 ///     result.appendData(try cryptor.final())
 ///
 ///  After calling `finalData()`, the cryptor is no longer valid.
-// swiftlint:disable all
+
 public protocol RNCryptorType {
 
     /// Creates and returns a cryptor.

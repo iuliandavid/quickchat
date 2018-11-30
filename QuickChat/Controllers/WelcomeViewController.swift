@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 
 //swiftlint:disable trailing_whitespace
+//swiftlint:disable vertical_whitespace
 class WelcomeViewController: UIViewController {
     
     // outlets
@@ -25,8 +26,8 @@ class WelcomeViewController: UIViewController {
         
         if backendless?.userService.currentUser != nil {
             // go to app
-            DispatchQueue.main.async {
-            NavigationSingleton.instance.goToApp(viewController: self)
+            DispatchQueue.main.async { [unowned self] in
+                NavigationSingleton.instance.goToApp(viewController: self)
             }
         }
     }
@@ -48,16 +49,19 @@ class WelcomeViewController: UIViewController {
     }
    
     private func loginUser(email: String, password: String) {
-        ProgressHUD.dismiss()
         
-        backendless?.userService.login(email, password: password, response: { (user) in
+        backendless?.userService.login(email, password: password, response: { _ in
             self.emailTextField.text = nil
             self.passwordTextField.text = nil
             // dismiss keyboard
             self.view.endEditing(false)
             
             // go to app
-            NavigationSingleton.instance.goToApp(viewController: self)
+            DispatchQueue.main.async { [unowned self] in
+                NavigationSingleton.instance.goToApp(viewController: self)
+                ProgressHUD.dismiss()
+            }
+            
         }, error: { (fault) in
             if let err = fault {
                 ProgressHUD.showError("Couldn't login: \(err.detail ?? "")")
