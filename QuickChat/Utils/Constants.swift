@@ -16,3 +16,5 @@ struct BackendlessConstants {
 }
 
 var backendless = Backendless.sharedInstance()
+
+public let kMAXDURATION = 5.0

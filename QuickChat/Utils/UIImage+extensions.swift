@@ -8,7 +8,9 @@
 
 import UIKit
 
+//swiftlint:disable trailing_whitespace
 extension UIImage {
+    
     /// A helper function to create images with text being used as the
     /// image content.
     /// - returns: an image containing a representation of the text

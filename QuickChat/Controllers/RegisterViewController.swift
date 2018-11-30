@@ -50,6 +50,26 @@ class RegisterViewController: UIViewController {
     
     
     @IBAction func cameraBtnPressed(_ sender: Any) {
+        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        
+        // Create a new image picker
+        let camera = Camera(delegate: self)
+        
+        let takePhoto = UIAlertAction(title: "Take Photo", style: .default) { _ in
+            camera.presentPhotoCamera(target: self, canEdit: true)
+        }
+        let sharePhoto = UIAlertAction(title: "Photo Library", style: .default) { _ in
+            camera.presentPhotoLibray(target: self, canEdit: true)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        optionMenu.addAction(takePhoto)
+        optionMenu.addAction(sharePhoto)
+        optionMenu.addAction(cancelAction)
+        
+        self.present(optionMenu, animated: true, completion: nil)
     }
     
     // MARK: - Register backendless user
@@ -116,4 +136,28 @@ class RegisterViewController: UIViewController {
     
     
     
+}
+
+
+// MARK: - Extensions
+extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    // called when the user cancels selecting an image
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    // called when the user has finished selecting an image
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        guard let image = info[.editedImage] as? UIImage
+            ?? info[.originalImage] as? UIImage else {
+            ProgressHUD.showError("Couldn't get a picture from the image picker!")
+            return
+        }
+        
+        self.avatarImage = image
+        
+        // Get rid of the view controller
+        picker.dismiss(animated: true, completion: nil)
+    }
 }
