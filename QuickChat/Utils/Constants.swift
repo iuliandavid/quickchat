@@ -6,7 +6,7 @@
 //  Copyright © 2018 iulian david. All rights reserved.
 //
 
-import Foundation
+import Firebase
 
 //Backendless
 struct BackendlessConstants {
@@ -18,3 +18,10 @@ struct BackendlessConstants {
 var backendless = Backendless.sharedInstance()
 
 public let kMAXDURATION = 5.0
+
+//firebase
+var firebase = Database.database().reference()
+//recent
+public let kRECENT = "Recent"
+public let kUSERID = "userId"
+public let kDATE = "date"

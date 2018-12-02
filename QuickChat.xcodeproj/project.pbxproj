@@ -23,6 +23,11 @@
 		B85A783521AADDB400FA04A9 /* NavigationSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A783421AADDB400FA04A9 /* NavigationSingleton.swift */; };
 		B85A783721B1911A00FA04A9 /* UIImage+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A783621B1911A00FA04A9 /* UIImage+extensions.swift */; };
 		B85A783921B1A3B000FA04A9 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A783821B1A3B000FA04A9 /* Camera.swift */; };
+		B88ECC2E21B248E200555EF0 /* RecentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88ECC2D21B248E200555EF0 /* RecentsViewController.swift */; };
+		B88ECC3121B2493600555EF0 /* RecentsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88ECC3021B2493600555EF0 /* RecentsViewCell.swift */; };
+		B88ECC3321B3D58C00555EF0 /* ChooseUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88ECC3221B3D58C00555EF0 /* ChooseUserViewController.swift */; };
+		B88ECC3521B3D5A400555EF0 /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88ECC3421B3D5A400555EF0 /* FriendTableViewCell.swift */; };
+		B88ECC3721B3D87F00555EF0 /* BackendlessUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88ECC3621B3D87F00555EF0 /* BackendlessUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +53,11 @@
 		B85A783421AADDB400FA04A9 /* NavigationSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSingleton.swift; sourceTree = "<group>"; };
 		B85A783621B1911A00FA04A9 /* UIImage+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+extensions.swift"; sourceTree = "<group>"; };
 		B85A783821B1A3B000FA04A9 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		B88ECC2D21B248E200555EF0 /* RecentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentsViewController.swift; sourceTree = "<group>"; };
+		B88ECC3021B2493600555EF0 /* RecentsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentsViewCell.swift; sourceTree = "<group>"; };
+		B88ECC3221B3D58C00555EF0 /* ChooseUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseUserViewController.swift; sourceTree = "<group>"; };
+		B88ECC3421B3D5A400555EF0 /* FriendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
+		B88ECC3621B3D87F00555EF0 /* BackendlessUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendlessUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +116,7 @@
 		B84E766521A8072100704541 /* QuickChat */ = {
 			isa = PBXGroup;
 			children = (
+				B88ECC2F21B2490800555EF0 /* Views */,
 				B85A782F21AAAF9700FA04A9 /* Controllers */,
 				B85A782621AA94C900FA04A9 /* Utils */,
 				B84E767A21A807C200704541 /* Supporting Files */,
@@ -144,6 +155,7 @@
 				B85A782721AA94D900FA04A9 /* Constants.swift */,
 				B85A783421AADDB400FA04A9 /* NavigationSingleton.swift */,
 				B85A783621B1911A00FA04A9 /* UIImage+extensions.swift */,
+				B88ECC3621B3D87F00555EF0 /* BackendlessUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -153,8 +165,19 @@
 			children = (
 				B85A783021AAAFAE00FA04A9 /* WelcomeViewController.swift */,
 				B85A783221AAD70000FA04A9 /* RegisterViewController.swift */,
+				B88ECC2D21B248E200555EF0 /* RecentsViewController.swift */,
+				B88ECC3221B3D58C00555EF0 /* ChooseUserViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		B88ECC2F21B2490800555EF0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B88ECC3021B2493600555EF0 /* RecentsViewCell.swift */,
+				B88ECC3421B3D5A400555EF0 /* FriendTableViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -307,10 +330,15 @@
 				B85A783921B1A3B000FA04A9 /* Camera.swift in Sources */,
 				B84E766721A8072100704541 /* AppDelegate.swift in Sources */,
 				B85A783721B1911A00FA04A9 /* UIImage+extensions.swift in Sources */,
+				B88ECC3521B3D5A400555EF0 /* FriendTableViewCell.swift in Sources */,
+				B88ECC2E21B248E200555EF0 /* RecentsViewController.swift in Sources */,
 				B85A783321AAD70000FA04A9 /* RegisterViewController.swift in Sources */,
+				B88ECC3321B3D58C00555EF0 /* ChooseUserViewController.swift in Sources */,
 				B85A783121AAAFAE00FA04A9 /* WelcomeViewController.swift in Sources */,
 				B85A783521AADDB400FA04A9 /* NavigationSingleton.swift in Sources */,
+				B88ECC3121B2493600555EF0 /* RecentsViewCell.swift in Sources */,
 				B85A782321AA7CE800FA04A9 /* RNCryptor.swift in Sources */,
+				B88ECC3721B3D87F00555EF0 /* BackendlessUtils.swift in Sources */,
 				B85A782821AA94D900FA04A9 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

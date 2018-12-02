@@ -85,15 +85,17 @@ class RegisterViewController: UIViewController {
             uploadableAvatarImage = UIImage.createImage(text: username)
         }
         
-        let data = uploadableAvatarImage.jpegData(compressionQuality: 1)
-        
-        backendless?.file.uploadFile("/users/\(email).jpg",
-            content: data,
-            overwriteIfExist: true,
-            response: { [unowned self] (uploadFile) in
-                print("File uploaded: \(String(describing: uploadFile?.fileURL))")
-                self.newUser?.setProperty("Avatar", object: uploadFile?.fileURL)
-                
+        BackendlessUtils.uploadAvatar(
+        uploadDirectory: "/avatars/",
+        image: uploadableAvatarImage) {  [unowned self] (urlFile, fault) in
+            if let err = fault {
+                ProgressHUD.showError("Couldn't upload avatar: \(err.detail ?? "")")
+            } else {
+                guard let urlFile = urlFile else {
+                    return
+                }
+                print("File uploaded: \(urlFile)")
+                self.newUser?.setProperty("Avatar", object: urlFile)
                 backendless?.userService.register(self.newUser, response: { _ in
                     self.emailTextField.text = nil
                     self.passwordTextField.text = nil
@@ -107,15 +109,9 @@ class RegisterViewController: UIViewController {
                         ProgressHUD.showError("Error registering user \(err.detail ?? "")")
                     }
                 })
-                
-            },
-            error: { (fault) in
-                if let err = fault {
-                    ProgressHUD.showError("Couldn't upload avatar: \(err.detail ?? "")")
-                }
-        })
-        
-        
+
+            }
+        }
         
     }
     
