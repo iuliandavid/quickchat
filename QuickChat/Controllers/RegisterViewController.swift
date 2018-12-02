@@ -85,34 +85,46 @@ class RegisterViewController: UIViewController {
             uploadableAvatarImage = UIImage.createImage(text: username)
         }
         
-        BackendlessUtils.uploadAvatar(
-        uploadDirectory: "/avatars/",
-        image: uploadableAvatarImage) {  [unowned self] (urlFile, fault) in
+        backendless?.userService.register(self.newUser, response: { [unowned self] _ in
+            self.emailTextField.text = nil
+            self.passwordTextField.text = nil
+            self.usernameTextField.text = nil
+            // dismiss keyboard
+            self.view.endEditing(false)
+            // login user
+            self.loginUser(email: email, password: password)
+            self.uploadAvatar(image: uploadableAvatarImage)
+        }, error: { (fault) in
             if let err = fault {
-                ProgressHUD.showError("Couldn't upload avatar: \(err.detail ?? "")")
-            } else {
-                guard let urlFile = urlFile else {
-                    return
-                }
-                print("File uploaded: \(urlFile)")
-                self.newUser?.setProperty("Avatar", object: urlFile)
-                backendless?.userService.register(self.newUser, response: { _ in
-                    self.emailTextField.text = nil
-                    self.passwordTextField.text = nil
-                    self.usernameTextField.text = nil
-                    // dismiss keyboard
-                    self.view.endEditing(false)
-                    // login user
-                    self.loginUser(email: email, password: password)
-                }, error: { (fault) in
-                    if let err = fault {
-                        ProgressHUD.showError("Error registering user \(err.detail ?? "")")
-                    }
-                })
-
+                ProgressHUD.showError("Error registering user \(err.detail ?? "")")
             }
-        }
+        })
         
+    }
+    
+    private func uploadAvatar(image: UIImage) {
+        BackendlessUtils.uploadAvatar(
+            uploadDirectory: "/avatars/",
+            image: image) { (urlFile, fault) in
+                if let err = fault {
+                    ProgressHUD.showError("Couldn't upload avatar: \(err.detail ?? "")")
+                } else {
+                    guard let urlFile = urlFile, let user = backendless?.userService.currentUser else {
+                        return
+                    }
+                    let properties = ["Avatar": urlFile]
+                    user.updateProperties(properties)
+                    backendless?.userService
+                        .update(
+                            user,
+                            response: { _ in },
+                            error: { fault in
+                                if let err = fault {
+                                    ProgressHUD.showError("Error updating user avatar \(err.detail ?? "")")
+                                }
+                        })
+                }
+        }
     }
     
     private func loginUser(email: String, password: String) {

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+//swiftlint:disable trailing_whitespace
 class RecentsViewCell: UITableViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
