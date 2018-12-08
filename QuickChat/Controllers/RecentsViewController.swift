@@ -84,6 +84,25 @@ class RecentsViewController: UIViewController {
     */
     // MARK: - IBAction
     @IBAction func addButtonPressed(_ sender: Any) {
+        
+        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let friends = UIAlertAction(title: "Friends", style: .default) { (action) in
+            // filter based on friends
+        }
+        
+        let allUsers = UIAlertAction(title: "All Users", style: .default) { _ in
+             self.performSegue(withIdentifier: "recentToChooseUserSeg", sender: self)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        optionMenu.addAction(friends)
+        optionMenu.addAction(allUsers)
+        optionMenu.addAction(cancelAction)
+        
+        present(optionMenu, animated: true, completion: nil)
+        
+       
     }
    
     
@@ -106,6 +125,10 @@ class RecentsViewController: UIViewController {
                         self?.recents.append(currentRecent)
                         
                         // remember to get all recents for offilne use as well
+                        firebase.child(kRECENT)
+                            .queryOrdered(byChild: kCHATROOMID)
+                            .queryEqual(toValue: currentRecent[kCHATROOMID])
+                            .observe(.value, with: { _ in })
                     }
                 }
         }

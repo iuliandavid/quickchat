@@ -304,7 +304,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="eU1-Ed-j2W" id="gzI-bR-y9q"/>
-                        <segue destination="bGG-hI-suL" kind="show" id="1pp-nM-8SL"/>
+                        <segue destination="bGG-hI-suL" kind="show" identifier="recentToChooseUserSeg" id="1pp-nM-8SL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NTV-qE-ifd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -320,7 +320,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="60" id="IEv-OZ-u2R" customClass="FriendTableViewCell" customModule="QuickChat" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChooseUserCell" rowHeight="60" id="IEv-OZ-u2R" customClass="FriendTableViewCell" customModule="QuickChat" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="320" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IEv-OZ-u2R" id="epj-wY-9fz">

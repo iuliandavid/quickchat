@@ -13,6 +13,7 @@
 		B84E766E21A8072400704541 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B84E766D21A8072400704541 /* Assets.xcassets */; };
 		B84E767121A8072400704541 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B84E766F21A8072400704541 /* LaunchScreen.storyboard */; };
 		B84E767921A8077A00704541 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B84E767821A8077A00704541 /* GoogleService-Info.plist */; };
+		B858B1B021B674C300A1ABF2 /* Recent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B858B1AF21B674C300A1ABF2 /* Recent.swift */; };
 		B85A782321AA7CE800FA04A9 /* RNCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A782221AA7CE800FA04A9 /* RNCryptor.swift */; };
 		B85A782821AA94D900FA04A9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A782721AA94D900FA04A9 /* Constants.swift */; };
 		B85A782A21AA975100FA04A9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B85A782921AA975100FA04A9 /* CoreLocation.framework */; };
@@ -41,6 +42,7 @@
 		B84E767021A8072400704541 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B84E767221A8072400704541 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B84E767821A8077A00704541 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B858B1AF21B674C300A1ABF2 /* Recent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recent.swift; sourceTree = "<group>"; };
 		B85A782021AA792C00FA04A9 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		B85A782221AA7CE800FA04A9 /* RNCryptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNCryptor.swift; sourceTree = "<group>"; };
 		B85A782421AA7D2C00FA04A9 /* RNCryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNCryptor.h; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				B85A783421AADDB400FA04A9 /* NavigationSingleton.swift */,
 				B85A783621B1911A00FA04A9 /* UIImage+extensions.swift */,
 				B88ECC3621B3D87F00555EF0 /* BackendlessUtils.swift */,
+				B858B1AF21B674C300A1ABF2 /* Recent.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				B85A783121AAAFAE00FA04A9 /* WelcomeViewController.swift in Sources */,
 				B85A783521AADDB400FA04A9 /* NavigationSingleton.swift in Sources */,
 				B88ECC3121B2493600555EF0 /* RecentsViewCell.swift in Sources */,
+				B858B1B021B674C300A1ABF2 /* Recent.swift in Sources */,
 				B85A782321AA7CE800FA04A9 /* RNCryptor.swift in Sources */,
 				B88ECC3721B3D87F00555EF0 /* BackendlessUtils.swift in Sources */,
 				B85A782821AA94D900FA04A9 /* Constants.swift in Sources */,
