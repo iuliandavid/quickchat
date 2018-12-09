@@ -360,6 +360,21 @@
             </objects>
             <point key="canvasLocation" x="3907.5" y="1536.9718309859154"/>
         </scene>
+        <!--Chat View Controller-->
+        <scene sceneID="9aF-Ri-Dfi">
+            <objects>
+                <viewController id="OzH-xD-C6f" customClass="ChatViewController" customModule="QuickChat" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9a7-vc-MGc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="hZr-Jz-tY4"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qcc-Vc-6a1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4733" y="1530"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="l7S-IL-7Ed">
             <objects>

@@ -163,5 +163,26 @@ extension RecentsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let recent = recents[indexPath.row]
+        
+        //restart recents
+        if let titleName = recent[kWITHUSERUSERNAME] as? String,
+            let members = recent[kMEMBERS] as? [String],
+            let chatRoomId = recent[kCHATROOMID] as? String,
+            let type = recent[kTYPE] as? String {
+            let chatVC = ChatViewController()
+            chatVC.hidesBottomBarWhenPushed = true
+            chatVC.titleName = titleName
+            chatVC.members = members
+            chatVC.chatRoomId = chatRoomId
+            
+            if type == kGROUP {
+                chatVC.isGroup = true
+            }
+            
+            navigationController?.pushViewController(chatVC, animated: true)
+        }
     }
 }

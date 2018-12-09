@@ -45,3 +45,18 @@ public let kNAME = "name"
 public let kSENDERID = "senderId"
 public let kSENDERNAME = "senderName"
 public let kTHUMBNAIL = "thumbnail"
+
+//coordinates
+public let kLATITUDE = "latitude"
+public let kLONGITUDE = "longitude"
+
+//message types
+public let kPICTURE = "picture"
+public let kTEXT = "text"
+public let kVIDEO = "video"
+public let kAUDIO = "audio"
+public let kLOCATION = "location"
+
+//message status
+public let kDELIVERED = "Delivered"
+public let kREAD = "Read"
