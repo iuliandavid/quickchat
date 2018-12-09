@@ -14,7 +14,7 @@ class RecentsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var recents: [NSDictionary] = []
+    var recents: [[String: Any]] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,24 +113,23 @@ class RecentsViewController: UIViewController {
             .queryEqual(toValue: backendless?.userService.currentUser.objectId)
             .observe(.value) { [weak self] snapshot in
                 self?.recents.removeAll()
-                if snapshot.exists() {
-                    guard let sorted = ((snapshot.value as? NSDictionary)?.allValues as NSArray?)?.sortedArray(using: [NSSortDescriptor(key: kDATE, ascending: false)]) else {
-                        return
-                    }
-                    for recent in sorted {
-                        guard let currentRecent = recent as? NSDictionary else {
-                            continue
-                        }
-                        
-                        self?.recents.append(currentRecent)
-                        
-                        // remember to get all recents for offilne use as well
-                        firebase.child(kRECENT)
-                            .queryOrdered(byChild: kCHATROOMID)
-                            .queryEqual(toValue: currentRecent[kCHATROOMID])
-                            .observe(.value, with: { _ in })
-                    }
+                guard let sorted = ((snapshot.value as? NSDictionary)?.allValues as NSArray?)?.sortedArray(using: [NSSortDescriptor(key: kDATE, ascending: false)]) else {
+                    return
                 }
+                for recent in sorted {
+                    guard let currentRecent = recent as? [String: Any] else {
+                        continue
+                    }
+                    
+                    self?.recents.append(currentRecent)
+                    
+                    // remember to get all recents for offilne use as well
+                    firebase.child(kRECENT)
+                        .queryOrdered(byChild: kCHATROOMID)
+                        .queryEqual(toValue: currentRecent[kCHATROOMID])
+                        .observe(.value, with: { _ in })
+                }
+                self?.tableView.reloadData()
         }
     }
 }
@@ -147,7 +146,7 @@ extension RecentsViewController: UITableViewDataSource {
         }
         
         let recent = recents[indexPath.row]
-//        cell.counterLabel;
+        cell.bindData(recent: recent)
         return cell
     }
 }
