@@ -168,6 +168,8 @@ extension RecentsViewController: UITableViewDelegate {
         let recent = recents[indexPath.row]
         
         //restart recents
+        restartRecentChat(recent: recent)
+        
         if let titleName = recent[kWITHUSERUSERNAME] as? String,
             let members = recent[kMEMBERS] as? [String],
             let chatRoomId = recent[kCHATROOMID] as? String,

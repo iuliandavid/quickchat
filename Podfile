@@ -13,5 +13,7 @@ target 'QuickChat' do
   pod 'IQAudioRecorderController'
   pod 'SinchRTC'
   pod 'ProgressHUD'
+  pod 'MessageKit'
+
 
 end

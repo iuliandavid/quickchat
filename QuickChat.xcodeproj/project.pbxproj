@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		21DCD009E90781945260FB6F /* libPods-QuickChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79F00DA83F25792776A340F1 /* libPods-QuickChat.a */; };
 		B83E7C7821BD0F37005D7E99 /* OutgoingMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E7C7721BD0F37005D7E99 /* OutgoingMessage.swift */; };
+		B83E7C7A21BE2E5F005D7E99 /* IncomingMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E7C7921BE2E5F005D7E99 /* IncomingMessage.swift */; };
 		B84E766721A8072100704541 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84E766621A8072100704541 /* AppDelegate.swift */; };
 		B84E766C21A8072100704541 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B84E766A21A8072100704541 /* Main.storyboard */; };
 		B84E766E21A8072400704541 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B84E766D21A8072400704541 /* Assets.xcassets */; };
@@ -38,6 +39,7 @@
 		79F00DA83F25792776A340F1 /* libPods-QuickChat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-QuickChat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		935270CA92F0B0E99A7DEA7C /* Pods-QuickChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickChat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickChat/Pods-QuickChat.debug.xcconfig"; sourceTree = "<group>"; };
 		B83E7C7721BD0F37005D7E99 /* OutgoingMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingMessage.swift; sourceTree = "<group>"; };
+		B83E7C7921BE2E5F005D7E99 /* IncomingMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingMessage.swift; sourceTree = "<group>"; };
 		B84E766321A8072100704541 /* QuickChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B84E766621A8072100704541 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B84E766B21A8072100704541 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				B83E7C7721BD0F37005D7E99 /* OutgoingMessage.swift */,
+				B83E7C7921BE2E5F005D7E99 /* IncomingMessage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 				B84E766721A8072100704541 /* AppDelegate.swift in Sources */,
 				B85A783721B1911A00FA04A9 /* UIImage+extensions.swift in Sources */,
 				B83E7C7821BD0F37005D7E99 /* OutgoingMessage.swift in Sources */,
+				B83E7C7A21BE2E5F005D7E99 /* IncomingMessage.swift in Sources */,
 				B88ECC3521B3D5A400555EF0 /* FriendTableViewCell.swift in Sources */,
 				B88ECC2E21B248E200555EF0 /* RecentsViewController.swift in Sources */,
 				B85A783321AAD70000FA04A9 /* RegisterViewController.swift in Sources */,

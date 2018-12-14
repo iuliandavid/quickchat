@@ -18,6 +18,10 @@ struct BackendlessConstants {
 var backendless = Backendless.sharedInstance()
 
 public let kMAXDURATION = 5.0
+public let kFIRSTRUN = "firstRun"
+public let kNUMBEROFMESSAGES = 40
+public let kAUDIOMAXDURATION = 10.0
+public let kSUCCESS = 2
 
 //firebase
 var firebase = Database.database().reference()
@@ -60,3 +64,5 @@ public let kLOCATION = "location"
 //message status
 public let kDELIVERED = "Delivered"
 public let kREAD = "Read"
+
+
