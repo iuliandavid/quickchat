@@ -28,7 +28,10 @@ public class IncomingMessage {
         }
         
         if type == kLOCATION {
-            //location
+            UIView.animate(withDuration: 0.3) {
+                message = createLocationMessage(item: dictionary, chatRoomId: chatRoomId)
+            }
+            
         }
         
         if type == kPICTURE {
@@ -70,6 +73,24 @@ public class IncomingMessage {
         let mediaItem = JSQPhotoMediaItem(image: nil)
         mediaItem?.appliesMediaViewMaskAsOutgoing = returnOutgoingStatusFromUser(senderId: userId)
         mediaItem?.image = UIImage(data: picData)
+        return JSQMessage(senderId: userId, senderDisplayName: name, date: date, media: mediaItem)
+    }
+    
+    static func createLocationMessage(item: [String: Any], chatRoomId: String) -> JSQMessage {
+        guard let name = item[kSENDERNAME] as? String,
+            let userId = item[kSENDERID] as? String,
+            let dateString = item[kDATE] as? String,
+            let date = dateFormatter().date(from: dateString),
+            let latitude = item[kLATITUDE] as? Double,
+            let longitude = item[kLONGITUDE] as? Double else {
+                fatalError()
+        }
+        let mediaItem = JSQLocationMediaItem(location: nil)
+        mediaItem?.appliesMediaViewMaskAsOutgoing = returnOutgoingStatusFromUser(senderId: userId)
+        
+        let location = CLLocation(latitude: latitude, longitude: longitude)
+        mediaItem?.setLocation(location, withCompletionHandler: nil)
+        
         return JSQMessage(senderId: userId, senderDisplayName: name, date: date, media: mediaItem)
     }
     

@@ -143,7 +143,9 @@ class ChatViewController: JSQMessagesViewController, UINavigationControllerDeleg
         }
         
         let shareLocation = UIAlertAction(title: "Share Location", style: .default) { _ in
-            
+            if self.haveAccessToUserLocation() {
+                self.sendMessage(text: nil, date: Date(), picture: nil, location: kLOCATION, video: nil, audio: nil)
+            }
         }
         
         
@@ -165,7 +167,7 @@ class ChatViewController: JSQMessagesViewController, UINavigationControllerDeleg
     }
     
     // MARK: Send Message
-    func sendMessage(text: String? = nil, date: Date, picture: UIImage? = nil, location: String? = nil, video: URL? = nil, audio: String? = nil) {
+    func sendMessage(text: String? = nil, date: Date = Date(), picture: UIImage? = nil, location: String? = nil, video: URL? = nil, audio: String? = nil) {
         
         var outgoingMessage: OutgoingMessage?
         //text message
@@ -194,9 +196,13 @@ class ChatViewController: JSQMessagesViewController, UINavigationControllerDeleg
         }
         
         //location message
-        if let location = location {
+        if location != nil {
             //send location message
-            outgoingMessage = OutgoingMessage(message: kLOCATION, senderId: senderId, senderName: senderDisplayName, date: Date(), status: kDELIVERED, type: kLOCATION)
+            if let latitude = appDelegate.coordinates?.latitude, let longitude = appDelegate.coordinates?.longitude {
+                let text = kLOCATION
+                outgoingMessage = OutgoingMessage(message: text, latitude: Double(latitude), longitude: Double(longitude) , senderId: senderId, senderName: senderDisplayName, date: Date(), status: kDELIVERED, type: kLOCATION)
+            }
+            
         }
         
         guard let createdOutgoingMessage = outgoingMessage else {
@@ -310,6 +316,15 @@ class ChatViewController: JSQMessagesViewController, UINavigationControllerDeleg
         if let senderId = item[kSENDERID] as? String, senderId != self.senderId {
             return true
         } else {
+            return false
+        }
+    }
+    
+    func haveAccessToUserLocation() -> Bool {
+        if let _ = appDelegate.locationManager {
+            return true
+        } else {
+            ProgressHUD.showError("Please give access to location in Setting")
             return false
         }
     }
