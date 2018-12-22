@@ -11,10 +11,10 @@ import AVKit
 
 //swiftlint:disable trailing_whitespace
 //swiftlint:disable vertical_whitespace
+//swiftlint:disable line_length
 class ChatViewController: JSQMessagesViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
-    //swiftlint:disable force_cast
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    weak var appDelegate = UIApplication.shared.delegate as? AppDelegate
     let ref = firebase.child(kMESSAGE)
     
     
@@ -68,10 +68,13 @@ class ChatViewController: JSQMessagesViewController, UINavigationControllerDeleg
         
         let data = messages[indexPath.row]
         
-        if data.senderId == senderId {
-            cell.textView.textColor = .white
-        } else {
-            cell.textView.textColor = .black
+        // Just a hack to be sure the location gets renderd
+        if cell.textView != nil {
+            if data.senderId == senderId {
+                cell.textView.textColor = .white
+            } else {
+                cell.textView.textColor = .black
+            }
         }
         return cell
     }
@@ -98,19 +101,37 @@ class ChatViewController: JSQMessagesViewController, UINavigationControllerDeleg
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
-    
+        if indexPath.item % 3 == 0 {
+            let message = messages[indexPath.item]
+            return JSQMessagesTimestampFormatter.shared()?.attributedTimestamp(for: message.date)
+        }
         return nil
     }
-    //swiftlint:disable line_length
+    
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellTopLabelAt indexPath: IndexPath!) -> CGFloat {
+        
+        if indexPath.item % 3 == 0 {
+            return kJSQMessagesCollectionViewCellLabelHeightDefault
+        }
         return 0.0
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellBottomLabelAt indexPath: IndexPath!) -> NSAttributedString! {
-        return nil
+        
+        let message = objects[indexPath.row]
+        
+        if let status = message[kSTATUS] as? String, indexPath.row == (messages.count - 1) {
+            return NSAttributedString(string: status)
+        } else {
+            return NSAttributedString(string: "")
+        }
     }
-    //swiftlint:disable line_length
+    
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellBottomLabelAt indexPath: IndexPath!) -> CGFloat {
+        
+        if !isIncoming(item: objects[indexPath.row]) {
+            return kJSQMessagesCollectionViewCellLabelHeightDefault
+        }
         return 0.0
     }
     
@@ -184,13 +205,13 @@ class ChatViewController: JSQMessagesViewController, UINavigationControllerDeleg
         
         
         //video message
-        if let video = video {
+        if video != nil {
             //send video message
             outgoingMessage = OutgoingMessage(message: kVIDEO, senderId: senderId, senderName: senderDisplayName, date: Date(), status: kDELIVERED, type: kVIDEO)
         }
         
         //audio message
-        if let audioPath = audio {
+        if audio != nil {
             //send audio message
             outgoingMessage = OutgoingMessage(message: kAUDIO, senderId: senderId, senderName: senderDisplayName, date: Date(), status: kDELIVERED, type: kAUDIO)
         }
@@ -198,9 +219,9 @@ class ChatViewController: JSQMessagesViewController, UINavigationControllerDeleg
         //location message
         if location != nil {
             //send location message
-            if let latitude = appDelegate.coordinates?.latitude, let longitude = appDelegate.coordinates?.longitude {
+            if let latitude = appDelegate?.coordinates?.latitude, let longitude = appDelegate?.coordinates?.longitude {
                 let text = kLOCATION
-                outgoingMessage = OutgoingMessage(message: text, latitude: Double(latitude), longitude: Double(longitude) , senderId: senderId, senderName: senderDisplayName, date: Date(), status: kDELIVERED, type: kLOCATION)
+                outgoingMessage = OutgoingMessage(message: text, latitude: Double(latitude), longitude: Double(longitude), senderId: senderId, senderName: senderDisplayName, date: Date(), status: kDELIVERED, type: kLOCATION)
             }
             
         }
@@ -241,22 +262,43 @@ class ChatViewController: JSQMessagesViewController, UINavigationControllerDeleg
         }
         ref
             .child(chatRoomId)
-            .observe(.childChanged) { _ in
+            .observe(.childChanged) { [weak self] snapshot in
                 // update message
+                guard let item = snapshot.value as? [String: Any] else {
+                    return
+                }
+                self?.updateMessage(item: item)
         }
         
         
         ref
             .child(chatRoomId)
-            .observeSingleEvent(of: .value) { _ in
-                self.insertMessages()
-                self.finishSendingMessage(animated: false)
-                self.initialLoadComplete = true
+            .observeSingleEvent(of: .value) { [weak self] _ in
+                self?.insertMessages()
+                self?.finishSendingMessage(animated: false)
+                self?.initialLoadComplete = true
         }
         self.collectionView.reloadData()
     }
     
-   
+    func updateMessage(item: [String: Any]) {
+        if let index = objects.firstIndex(where: { temp in
+            return item[kMESSAGEID] as? String == temp[kMESSAGEID] as? String
+        }) {
+            objects[index] = item
+            self.collectionView.reloadData()
+        }
+        
+//        alternative
+//        for index in 0 ..< objects.count {
+//            let temp = objects[index]
+//            if item[kMESSAGEID] as? String == temp[kMESSAGEID] as? String {
+//                objects[index] = item
+//                self.collectionView.reloadData()
+//            }
+//        }
+        
+    }
     
     private func insertMessages() {
         max = loaded.count - loadCount
@@ -292,7 +334,9 @@ class ChatViewController: JSQMessagesViewController, UINavigationControllerDeleg
     
     
     func insertNewMessage(item: [String: Any]) -> Bool {
-        if let message = IncomingMessage.createMessage(dictionary: item, chatRoomId: chatRoomId) {
+        
+        let incomingMessage = IncomingMessage(collectionView: self.collectionView)
+        if let message = incomingMessage.createMessage(dictionary: item, chatRoomId: chatRoomId) {
             objects.insert(item, at: 0)
             messages.insert(message, at: 0)
         }
@@ -300,12 +344,12 @@ class ChatViewController: JSQMessagesViewController, UINavigationControllerDeleg
     }
     
     private func insertMessage(item: [String: Any]) -> Bool {
-        
+        let incomingMessage = IncomingMessage(collectionView: self.collectionView)
         if let senderId = item[kSENDERID] as? String, senderId != self.senderId {
-            //update status
+            updateChatStatus(chat: item, chatRoomId: chatRoomId)
         }
         
-        if let message = IncomingMessage.createMessage(dictionary: item, chatRoomId: chatRoomId) {
+        if let message = incomingMessage.createMessage(dictionary: item, chatRoomId: chatRoomId) {
             objects.append(item)
             messages.append(message)
         }
@@ -321,7 +365,11 @@ class ChatViewController: JSQMessagesViewController, UINavigationControllerDeleg
     }
     
     func haveAccessToUserLocation() -> Bool {
-        if let _ = appDelegate.locationManager {
+        
+        //it's faster like this than appDelegate?.locationManager != nil
+        // see https://stackoverflow.com/questions/45441878/in-swift-why-is-let-this-faster-then-this-nil#
+        //swiftlint:disable unused_optional_binding
+        if let _ = appDelegate?.locationManager {
             return true
         } else {
             ProgressHUD.showError("Please give access to location in Setting")
@@ -333,7 +381,7 @@ class ChatViewController: JSQMessagesViewController, UINavigationControllerDeleg
 
 // MARK: UIImagePickerControllerDelegate function
 extension ChatViewController {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         let video = info[UIImagePickerController.InfoKey.mediaURL] as? URL
         let picture = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
         

@@ -9,7 +9,6 @@
 import UIKit
 
 //swiftlint:disable trailing_whitespace
-//swiftlint:disable vertical_whitespace
 class NavigationSingleton {
    static let instance = NavigationSingleton()
     

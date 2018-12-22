@@ -35,19 +35,17 @@ func createRecent(userId: String, chatRoomId: String, members: [String], withUse
         .queryEqual(toValue: chatRoomId)
         .observeSingleEvent(of: .value) { snapshot in
             var create = true
-            
-            if snapshot.exists() {
-                if let recents = (snapshot.value as? NSDictionary)?.allValues as? [NSDictionary] {
-                    
-                    for recent in recents where (recent[kUSERID] as? String) == userId {
-                        
-                            create = false
-                            break
-                        
-                    }
-                }
+            if let recents = (snapshot.value as? NSDictionary)?.allValues as? [NSDictionary] {
                 
+                for recent in recents where (recent[kUSERID] as? String) == userId {
+                    
+                    create = false
+                    break
+                    
+                }
             }
+            
+            
             if create {
                 createRecentItem(userId: userId, chatRoomId: chatRoomId, members: members, withUserUserId: withUserUserId, withUserUsername: withUserUsername, type: type)
             }
@@ -79,8 +77,8 @@ func restartRecentChat(recent: [String: Any]) {
     if let type = recent[kTYPE] as? String, type == kPRIVATE {
         guard let members = recent[kMEMBERS] as? [String],
             let chatRoomId = recent[kCHATROOMID] as? String,
-            let withUserUserId = backendless?.userService.currentUser.objectId,
-            let withUserUsername = backendless?.userService.currentUser.name else {
+            let withUserUserId = backendless?.userService.currentUser.objectId as String?,
+            let withUserUsername = backendless?.userService.currentUser.name as String? else {
                 return
         }
         for userId in recent[kMEMBERS] as? [String] ?? [] where userId != withUserUserId as String {
@@ -130,5 +128,60 @@ func updateRecentItem(recent: [String: Any], lastMessage: String) {
             if error != nil {
                 ProgressHUD.showError("Couldn't update recent: \(error!.localizedDescription)")
             }
+    }
+}
+
+func updateChatStatus(chat: [String: Any], chatRoomId: String) {
+    let value = [kSTATUS: kREAD]
+    guard let messageid = chat[kMESSAGEID] as? String else {
+        return
+    }
+    firebase
+        .child(kMESSAGE)
+        .child(chatRoomId)
+        .child(messageid)
+        .updateChildValues(value)
+}
+
+class RecentBuilder {
+    private var recent = Recent()
+    
+    func setUserId(_ userId: String) -> RecentBuilder {
+        recent.userId = userId
+        return self
+    }
+    
+    
+    func setChatRoomId(_ chatRoomId: String) -> RecentBuilder {
+        recent.chatRoomId = chatRoomId
+        return self
+    }
+    func withMembers(_ members: [String]) -> RecentBuilder {
+        recent.members = members
+        return self
+    }
+    func withUserId(_ withUserUserId: String) -> RecentBuilder {
+        recent.withUserUserId = withUserUserId
+        return self
+    }
+    func withUserName(_ withUserUsername: String) -> RecentBuilder {
+        recent.withUserUsername = withUserUsername
+        return self
+    }
+    func withType(_ type: String) -> RecentBuilder {
+        recent.type = type
+        return self
+    }
+    func build() -> Recent {
+        return recent
+    }
+    
+    class Recent {
+        fileprivate var userId: String = ""
+        fileprivate var chatRoomId: String = ""
+        fileprivate var members: [String] = []
+        fileprivate var withUserUserId: String = ""
+        fileprivate var withUserUsername: String = ""
+        fileprivate var type: String = ""
     }
 }

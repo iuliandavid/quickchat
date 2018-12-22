@@ -16,7 +16,7 @@ public class IncomingMessage {
         self.collectionView = collectionView
     }
     
-    static func createMessage(dictionary: [String: Any], chatRoomId: String) -> JSQMessage? {
+    func createMessage(dictionary: [String: Any], chatRoomId: String) -> JSQMessage? {
         var message: JSQMessage?
         
         guard let type =  dictionary[kTYPE] as? String else {
@@ -28,10 +28,7 @@ public class IncomingMessage {
         }
         
         if type == kLOCATION {
-            UIView.animate(withDuration: 0.3) {
-                message = createLocationMessage(item: dictionary, chatRoomId: chatRoomId)
-            }
-            
+            message = createLocationMessage(item: dictionary, chatRoomId: chatRoomId)
         }
         
         if type == kPICTURE {
@@ -49,7 +46,7 @@ public class IncomingMessage {
         return message
     }
     
-    static func createTextMessage(item: [String: Any], chatRoomId: String) -> JSQMessage {
+    func createTextMessage(item: [String: Any], chatRoomId: String) -> JSQMessage {
         guard let name = item[kSENDERNAME] as? String,
             let userId = item[kSENDERID] as? String,
             let dateString = item[kDATE] as? String,
@@ -61,7 +58,7 @@ public class IncomingMessage {
         return JSQMessage(senderId: userId, senderDisplayName: name, date: date, text: text)
     }
     
-    static func createPictureMessage(item: [String: Any], chatRoomId: String) -> JSQMessage {
+    func createPictureMessage(item: [String: Any], chatRoomId: String) -> JSQMessage {
         guard let name = item[kSENDERNAME] as? String,
             let userId = item[kSENDERID] as? String,
             let dateString = item[kDATE] as? String,
@@ -76,7 +73,7 @@ public class IncomingMessage {
         return JSQMessage(senderId: userId, senderDisplayName: name, date: date, media: mediaItem)
     }
     
-    static func createLocationMessage(item: [String: Any], chatRoomId: String) -> JSQMessage {
+    func createLocationMessage(item: [String: Any], chatRoomId: String) -> JSQMessage {
         guard let name = item[kSENDERNAME] as? String,
             let userId = item[kSENDERID] as? String,
             let dateString = item[kDATE] as? String,
@@ -89,12 +86,14 @@ public class IncomingMessage {
         mediaItem?.appliesMediaViewMaskAsOutgoing = returnOutgoingStatusFromUser(senderId: userId)
         
         let location = CLLocation(latitude: latitude, longitude: longitude)
-        mediaItem?.setLocation(location, withCompletionHandler: nil)
+        mediaItem?.setLocation(location, withCompletionHandler: {
+            self.collectionView.reloadData()
+        })
         
         return JSQMessage(senderId: userId, senderDisplayName: name, date: date, media: mediaItem)
     }
     
-    static func returnOutgoingStatusFromUser(senderId: String) -> Bool {
+    func returnOutgoingStatusFromUser(senderId: String) -> Bool {
         
         if let userId = backendless?.userService.currentUser.objectId, userId as String != senderId {
             return true

@@ -73,21 +73,12 @@ class RecentsViewController: UIViewController {
         return titleView
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     // MARK: - IBAction
     @IBAction func addButtonPressed(_ sender: Any) {
         
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let friends = UIAlertAction(title: "Friends", style: .default) { (action) in
+        let friends = UIAlertAction(title: "Friends", style: .default) { _ in
             // filter based on friends
         }
         
@@ -113,7 +104,9 @@ class RecentsViewController: UIViewController {
             .queryEqual(toValue: backendless?.userService.currentUser.objectId)
             .observe(.value) { [weak self] snapshot in
                 self?.recents.removeAll()
-                guard let sorted = ((snapshot.value as? NSDictionary)?.allValues as NSArray?)?.sortedArray(using: [NSSortDescriptor(key: kDATE, ascending: false)]) else {
+                guard let sorted =
+                    ((snapshot.value as? NSDictionary)?.allValues as NSArray?)?
+                        .sortedArray(using: [NSSortDescriptor(key: kDATE, ascending: false)]) else {
                     return
                 }
                 for recent in sorted {
@@ -141,7 +134,8 @@ extension RecentsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecentsViewCell", for: indexPath) as? RecentsViewCell else {
+        guard let cell =
+            tableView.dequeueReusableCell(withIdentifier: "RecentsViewCell", for: indexPath) as? RecentsViewCell else {
             return RecentsViewCell()
         }
         
