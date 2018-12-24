@@ -17,7 +17,7 @@ struct BackendlessConstants {
 
 var backendless = Backendless.sharedInstance()
 
-public let kMAXDURATION = 5.0
+public let kMAXDURATION = 360.0
 public let kFIRSTRUN = "firstRun"
 public let kNUMBEROFMESSAGES = 40
 public let kAUDIOMAXDURATION = 10.0

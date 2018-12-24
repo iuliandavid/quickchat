@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		21DCD009E90781945260FB6F /* libPods-QuickChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79F00DA83F25792776A340F1 /* libPods-QuickChat.a */; };
+		B8197D5521CE8D390001C0D9 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8197D5421CE8D390001C0D9 /* File.swift */; };
+		B8197D5721CF5FF70001C0D9 /* ChatViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8197D5621CF5FF70001C0D9 /* ChatViewController+Extensions.swift */; };
 		B83E7C7821BD0F37005D7E99 /* OutgoingMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E7C7721BD0F37005D7E99 /* OutgoingMessage.swift */; };
 		B83E7C7A21BE2E5F005D7E99 /* IncomingMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E7C7921BE2E5F005D7E99 /* IncomingMessage.swift */; };
 		B84E766721A8072100704541 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84E766621A8072100704541 /* AppDelegate.swift */; };
@@ -38,6 +40,8 @@
 		76356DD56867DF84E096CDAF /* Pods-QuickChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickChat/Pods-QuickChat.release.xcconfig"; sourceTree = "<group>"; };
 		79F00DA83F25792776A340F1 /* libPods-QuickChat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-QuickChat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		935270CA92F0B0E99A7DEA7C /* Pods-QuickChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickChat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickChat/Pods-QuickChat.debug.xcconfig"; sourceTree = "<group>"; };
+		B8197D5421CE8D390001C0D9 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		B8197D5621CF5FF70001C0D9 /* ChatViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Extensions.swift"; sourceTree = "<group>"; };
 		B83E7C7721BD0F37005D7E99 /* OutgoingMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingMessage.swift; sourceTree = "<group>"; };
 		B83E7C7921BE2E5F005D7E99 /* IncomingMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingMessage.swift; sourceTree = "<group>"; };
 		B84E766321A8072100704541 /* QuickChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,6 +105,14 @@
 				76356DD56867DF84E096CDAF /* Pods-QuickChat.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		B8197D5821CF60000001C0D9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B8197D5621CF5FF70001C0D9 /* ChatViewController+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		B83E7C7421BCF099005D7E99 /* Model */ = {
@@ -187,6 +199,7 @@
 				B88ECC2D21B248E200555EF0 /* RecentsViewController.swift */,
 				B88ECC3221B3D58C00555EF0 /* ChooseUserViewController.swift */,
 				B858B1B121BCEA7800A1ABF2 /* ChatViewController.swift */,
+				B8197D5821CF60000001C0D9 /* Extensions */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -196,6 +209,7 @@
 			children = (
 				B88ECC3021B2493600555EF0 /* RecentsViewCell.swift */,
 				B88ECC3421B3D5A400555EF0 /* FriendTableViewCell.swift */,
+				B8197D5421CE8D390001C0D9 /* File.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -356,6 +370,7 @@
 				B83E7C7A21BE2E5F005D7E99 /* IncomingMessage.swift in Sources */,
 				B88ECC3521B3D5A400555EF0 /* FriendTableViewCell.swift in Sources */,
 				B88ECC2E21B248E200555EF0 /* RecentsViewController.swift in Sources */,
+				B8197D5521CE8D390001C0D9 /* File.swift in Sources */,
 				B85A783321AAD70000FA04A9 /* RegisterViewController.swift in Sources */,
 				B88ECC3321B3D58C00555EF0 /* ChooseUserViewController.swift in Sources */,
 				B85A783121AAAFAE00FA04A9 /* WelcomeViewController.swift in Sources */,
@@ -363,6 +378,7 @@
 				B88ECC3121B2493600555EF0 /* RecentsViewCell.swift in Sources */,
 				B858B1B021B674C300A1ABF2 /* Recent.swift in Sources */,
 				B85A782321AA7CE800FA04A9 /* RNCryptor.swift in Sources */,
+				B8197D5721CF5FF70001C0D9 /* ChatViewController+Extensions.swift in Sources */,
 				B88ECC3721B3D87F00555EF0 /* BackendlessUtils.swift in Sources */,
 				B858B1B221BCEA7800A1ABF2 /* ChatViewController.swift in Sources */,
 				B85A782821AA94D900FA04A9 /* Constants.swift in Sources */,

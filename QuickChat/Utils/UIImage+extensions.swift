@@ -57,4 +57,58 @@ extension UIImage {
         let blue = CGFloat(arc4random()) / CGFloat(UInt32.max)
         return UIColor(red: red, green: green, blue: blue, alpha: 1.0)
     }
+    
+    func resizedImage(width: CGFloat, height: CGFloat, scale: CGFloat) -> UIImage {
+        let bounds = CGSize(width: width, height: height)
+        
+        let horizontalRatio = bounds.width / size.width
+        let verticalRatio = bounds.height / size.height
+        let ratio = min(horizontalRatio, verticalRatio)
+        let newSize = CGSize(width: size.width * ratio,
+                             height: size.height * ratio)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, true, 0)
+        draw(in: CGRect(origin: CGPoint.zero, size: newSize))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
+    
+    func resizedImageTut(width: CGFloat, height: CGFloat, scale: CGFloat) -> UIImage {
+        let bounds = CGSize(width: width, height: height)
+        let rect = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
+        
+        UIGraphicsBeginImageContextWithOptions(bounds, false, scale)
+        draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
+    
+    //swiftlint:disable identifier_name
+    func cropImage(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) -> UIImage {
+        let rect = CGRect(x: x, y: y, width: width, height: height)
+        
+        guard let imageRef = self.cgImage?.cropping(to: rect) else {
+            fatalError("Cannot crop image")
+        }
+        
+        return UIImage(cgImage: imageRef)
+    }
+    
+    func squareImage(side: CFloat) -> UIImage {
+        
+        var cropped: UIImage!
+        if self.size.height > self.size.width {
+            let ypos = (self.size.height - self.size.width) / 2
+            cropped = cropImage(x: 0, y: ypos, width: self.size.width, height: self.size.height)
+        } else {
+            let xpos = (self.size.width - self.size.height) / 2
+            cropped = cropImage(x: xpos, y: 0, width: self.size.width, height: self.size.height)
+        }
+        let resize = cropped.resizedImage(width: CGFloat(side), height: CGFloat(side), scale: 1)
+        return resize
+    }
 }

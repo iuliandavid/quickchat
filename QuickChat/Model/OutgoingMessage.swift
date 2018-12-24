@@ -8,58 +8,77 @@
 
 import Foundation
 
-//swiftlint:disable force_cast
 //swiftlint:disable trailing_whitespace
 //swiftlint:disable line_length
 class OutgoingMessage {
     let ref = firebase.child(kMESSAGE)
     
-    let messageDictionary: NSMutableDictionary
+    var messageDictionary: [String: Any]
     
     // text
     init(message: String? = nil, senderId: String, senderName: String, date: Date, status: String, type: String) {
+        messageDictionary = [kSENDERID: senderId,
+                             kSENDERNAME: senderName,
+                             kDATE: dateFormatter().string(from: date),
+                             kSTATUS: status,
+                             kTYPE: type
+        ]
         
-        messageDictionary = NSMutableDictionary(objects: [senderId, senderName, dateFormatter().string(from: date), status, type], forKeys: [kSENDERID as NSCopying, kSENDERNAME as NSCopying, kDATE as NSCopying, kSTATUS as NSCopying, kTYPE as NSCopying])
         if let text = message {
-            let tempDictionary = NSMutableDictionary(objects: [text], forKeys: [kMESSAGE as NSCopying])
-            messageDictionary.addEntries(from: tempDictionary as! [AnyHashable: Any])
+            messageDictionary[kMESSAGE] = text
         }
     }
     
     // location
     convenience init(message: String? = nil, latitude: Double, longitude: Double, senderId: String, senderName: String, date: Date, status: String, type: String) {
         self.init(message: message, senderId: senderId, senderName: senderName, date: date, status: status, type: type)
-        let tempDictionary = NSMutableDictionary(objects: [latitude, longitude], forKeys: [kLATITUDE as NSCopying, kLONGITUDE as NSCopying])
-        messageDictionary.addEntries(from: tempDictionary as! [AnyHashable: Any])
+        messageDictionary[kLATITUDE] = latitude
+        messageDictionary[kLONGITUDE] = longitude
     }
     
     // picture
     convenience init(message: String? = nil, pictureData: Data, senderId: String, senderName: String, date: Date, status: String, type: String) {
         self.init(message: message, senderId: senderId, senderName: senderName, date: date, status: status, type: type)
-        let tempDictionary = NSMutableDictionary(objects: [pictureData.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))], forKeys: [kPICTURE as NSCopying])
-        messageDictionary.addEntries(from: tempDictionary as! [AnyHashable: Any])
+        messageDictionary[kPICTURE] =  pictureData.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
     }
     
     // video
     convenience init(message: String? = nil, video: String, thumbnail: String, senderId: String, senderName: String, date: Date, status: String, type: String) {
         self.init(message: message, senderId: senderId, senderName: senderName, date: date, status: status, type: type)
-        let tempDictionary = NSMutableDictionary(objects: [video, thumbnail], forKeys: [kVIDEO as NSCopying, kTHUMBNAIL as NSCopying])
-        messageDictionary.addEntries(from: tempDictionary as! [AnyHashable: Any])
+        messageDictionary[kVIDEO] = video
+        messageDictionary[kTHUMBNAIL] = thumbnail
     }
     
     // audio
     convenience init(message: String? = nil, audio: String, senderId: String, senderName: String, date: Date, status: String, type: String) {
         self.init(message: message, senderId: senderId, senderName: senderName, date: date, status: status, type: type)
-        let tempDictionary = NSMutableDictionary(objects: [audio], forKeys: [kAUDIO as NSCopying])
-        messageDictionary.addEntries(from: tempDictionary as! [AnyHashable: Any])
+        messageDictionary[kAUDIO] = audio
     }
     
-    func sendMessage(chatRoomId: String, item: NSMutableDictionary) {
+    func sendMessage(chatRoomId: String) {
+        guard let item = self.messageDictionary as? [String: Any] else { return  }
         let reference = ref.child(chatRoomId).childByAutoId()
+        var values: [String: Any] = [:]
+        item.forEach {values[$0] = $1}
+        values[kMESSAGEID] = reference.key
         
-        item[kMESSAGEID] = reference.key
+        reference.setValue(values) { (error, _) in
+            if error != nil {
+                ProgressHUD.showError("Fail to send message: \(error!.localizedDescription)")
+            }
+        }
         
-        reference.setValue(item) { (error, _) in
+        //update recent
+        //send notification
+    }
+    
+    func sendMessage(chatRoomId: String, item: [String: Any]) {
+        let reference = ref.child(chatRoomId).childByAutoId()
+        var values: [String: Any] = [:]
+        item.forEach {values[$0] = $1}
+        values[kMESSAGEID] = reference.key
+        
+        reference.setValue(values) { (error, _) in
             if error != nil {
                 ProgressHUD.showError("Fail to send message: \(error!.localizedDescription)")
             }

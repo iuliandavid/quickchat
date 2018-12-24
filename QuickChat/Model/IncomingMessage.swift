@@ -37,6 +37,7 @@ public class IncomingMessage {
         
         if type == kVIDEO {
             //text message
+            message = createVideoMessage(item: dictionary, chatRoomId: chatRoomId)
         }
         
         if type == kAUDIO {
@@ -90,6 +91,36 @@ public class IncomingMessage {
             self.collectionView.reloadData()
         })
         
+        return JSQMessage(senderId: userId, senderDisplayName: name, date: date, media: mediaItem)
+    }
+    
+    func createVideoMessage(item: [String: Any], chatRoomId: String) -> JSQMessage {
+        guard let name = item[kSENDERNAME] as? String,
+            let userId = item[kSENDERID] as? String,
+            let dateString = item[kDATE] as? String,
+            let date = dateFormatter().date(from: dateString),
+            let videoURLString = item[kVIDEO] as? String,
+            let thubnmailURLString = item[kTHUMBNAIL] as? String else {
+                fatalError()
+        }
+        let videoURL = URL(fileURLWithPath: videoURLString)
+        let mediaItem = VideoMessage(
+            withFileURL: videoURL,
+            maskOutgoing: returnOutgoingStatusFromUser(senderId: userId))
+        
+        BackendlessUtils.downloadVideo(videoUrlString: videoURLString) { (_, filename) in
+            guard filename != "" else { return }
+            
+            let url = URL(fileURLWithPath: fileInDocumentsDirectory(filename: filename))
+            
+            //download thumbnail
+            BackendlessUtils.getAvatarFromURL(url: thubnmailURLString, result: { (thumbnail) in
+                mediaItem.status = kSUCCESS
+                mediaItem.fileURL = url
+                mediaItem.image = thumbnail
+                self.collectionView.reloadData()
+            })
+        }
         return JSQMessage(senderId: userId, senderDisplayName: name, date: date, media: mediaItem)
     }
     

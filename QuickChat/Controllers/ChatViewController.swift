@@ -12,7 +12,8 @@ import AVKit
 //swiftlint:disable trailing_whitespace
 //swiftlint:disable vertical_whitespace
 //swiftlint:disable line_length
-class ChatViewController: JSQMessagesViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class ChatViewController: JSQMessagesViewController,
+    UINavigationControllerDelegate {
     
     weak var appDelegate = UIApplication.shared.delegate as? AppDelegate
     let ref = firebase.child(kMESSAGE)
@@ -195,25 +196,45 @@ class ChatViewController: JSQMessagesViewController, UINavigationControllerDeleg
         if let text = text {
             //send text message
             outgoingMessage = OutgoingMessage(message: text, senderId: senderId, senderName: senderDisplayName, date: Date(), status: kDELIVERED, type: kTEXT)
+            finishOutgoingMessage(outgoingMessage: outgoingMessage)
         }
         
         //image message
         if let picture = picture, let data = picture.jpegData(compressionQuality: 1.0) {
             //send image message
             outgoingMessage = OutgoingMessage(message: kPICTURE, pictureData: data, senderId: senderId, senderName: senderDisplayName, date: Date(), status: kDELIVERED, type: kPICTURE)
+            finishOutgoingMessage(outgoingMessage: outgoingMessage)
         }
         
         
         //video message
-        if video != nil {
-            //send video message
-            outgoingMessage = OutgoingMessage(message: kVIDEO, senderId: senderId, senderName: senderDisplayName, date: Date(), status: kDELIVERED, type: kVIDEO)
+        if let video = video,
+            let videoData = try? Data(contentsOf: video),
+            let picture = getThumbnailImage(for: video) {
+            let squared = picture.squareImage(side: 320)
+            if let dataThumbnail = squared.jpegData(compressionQuality: 0.3) {
+                BackendlessUtils.uploadVideo(video: videoData, thumbnail: dataThumbnail) { (videoLink, thumbnailLink) in
+                    if let videoLink = videoLink,
+                        let thumbnailLink = thumbnailLink {
+                        //send video message
+                        outgoingMessage = OutgoingMessage(message: kVIDEO, video: videoLink, thumbnail: thumbnailLink, senderId: self.senderId, senderName: self.senderDisplayName, date: Date(), status: kDELIVERED, type: kVIDEO)
+                        
+                        JSQSystemSoundPlayer.jsq_playMessageSentSound()
+                        self.finishSendingMessage()
+                        
+                        outgoingMessage?.sendMessage(chatRoomId: self.chatRoomId)
+                        return
+                    }
+                }
+            }
+           
         }
         
         //audio message
         if audio != nil {
             //send audio message
             outgoingMessage = OutgoingMessage(message: kAUDIO, senderId: senderId, senderName: senderDisplayName, date: Date(), status: kDELIVERED, type: kAUDIO)
+            finishOutgoingMessage(outgoingMessage: outgoingMessage)
         }
         
         //location message
@@ -222,10 +243,15 @@ class ChatViewController: JSQMessagesViewController, UINavigationControllerDeleg
             if let latitude = appDelegate?.coordinates?.latitude, let longitude = appDelegate?.coordinates?.longitude {
                 let text = kLOCATION
                 outgoingMessage = OutgoingMessage(message: text, latitude: Double(latitude), longitude: Double(longitude), senderId: senderId, senderName: senderDisplayName, date: Date(), status: kDELIVERED, type: kLOCATION)
+                finishOutgoingMessage(outgoingMessage: outgoingMessage)
             }
             
         }
         
+        
+    }
+    
+    private func finishOutgoingMessage(outgoingMessage: OutgoingMessage?) {
         guard let createdOutgoingMessage = outgoingMessage else {
             fatalError("No message")
         }
@@ -235,7 +261,6 @@ class ChatViewController: JSQMessagesViewController, UINavigationControllerDeleg
         
         createdOutgoingMessage.sendMessage(chatRoomId: chatRoomId, item: createdOutgoingMessage.messageDictionary)
     }
-    
     
     // MARK: Load Messages
     func loadMessages() {
@@ -375,17 +400,5 @@ class ChatViewController: JSQMessagesViewController, UINavigationControllerDeleg
             ProgressHUD.showError("Please give access to location in Setting")
             return false
         }
-    }
-}
-
-
-// MARK: UIImagePickerControllerDelegate function
-extension ChatViewController {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        let video = info[UIImagePickerController.InfoKey.mediaURL] as? URL
-        let picture = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
-        
-        sendMessage(text: nil, date: Date(), picture: picture, video: video)
-        picker.dismiss(animated: true, completion: nil)
     }
 }

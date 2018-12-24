@@ -30,7 +30,7 @@ class Camera {
             imagePicker.sourceType = .photoLibrary
             
             if let availableTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary) {
-                if (availableTypes as NSArray).contains(type) {
+                if availableTypes.contains(type) {
                     // Set up defaults
                     imagePicker.mediaTypes = [type]
                     imagePicker.allowsEditing = canEdit
@@ -39,7 +39,7 @@ class Camera {
         } else if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
             imagePicker.sourceType = .savedPhotosAlbum
             if let availableTypes = UIImagePickerController.availableMediaTypes(for: .savedPhotosAlbum) {
-                if (availableTypes as NSArray).contains(type) {
+                if availableTypes.contains(type) {
                     imagePicker.mediaTypes = [type]
                 }
             }
@@ -64,7 +64,7 @@ class Camera {
         let imagePicker = UIImagePickerController()
         
         if let availableTypes = UIImagePickerController.availableMediaTypes(for: .camera) {
-            if (availableTypes as NSArray).contains(type1) {
+            if availableTypes.contains(type1) {
                 imagePicker.mediaTypes = [type1, type2]
                 imagePicker.sourceType = .camera
             }
@@ -96,7 +96,7 @@ class Camera {
         let imagePicker = UIImagePickerController()
         
         if let availableTypes = UIImagePickerController.availableMediaTypes(for: .camera) {
-            if (availableTypes as NSArray).contains(type1) {
+            if availableTypes.contains(type1) {
                 imagePicker.mediaTypes = [type1]
                 imagePicker.sourceType = .camera
             }
@@ -128,7 +128,7 @@ class Camera {
         let imagePicker = UIImagePickerController()
         
         if let availableTypes = UIImagePickerController.availableMediaTypes(for: .camera) {
-            if (availableTypes as NSArray).contains(type1) {
+            if availableTypes.contains(type1) {
                 imagePicker.mediaTypes = [type1]
                 imagePicker.sourceType = .camera
                 imagePicker.videoMaximumDuration = kMAXDURATION
@@ -158,13 +158,13 @@ class Camera {
         
         let type = kUTTypeMovie as String
         let imagePicker = UIImagePickerController()
-        imagePicker.videoMaximumDuration = kMAXDURATION
+//        imagePicker.videoMaximumDuration = kMAXDURATION
         
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             imagePicker.sourceType = .photoLibrary
             
             if let availableTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary) {
-                if (availableTypes as NSArray).contains(type) {
+                if availableTypes.contains(type) {
                     // Set up defaults
                     imagePicker.mediaTypes = [type]
                     imagePicker.allowsEditing = canEdit
@@ -173,7 +173,7 @@ class Camera {
         } else if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
             imagePicker.sourceType = .savedPhotosAlbum
             if let availableTypes = UIImagePickerController.availableMediaTypes(for: .savedPhotosAlbum) {
-                if (availableTypes as NSArray).contains(type) {
+                if availableTypes.contains(type) {
                     imagePicker.mediaTypes = [type]
                 }
             }

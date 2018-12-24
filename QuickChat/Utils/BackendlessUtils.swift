@@ -77,6 +77,104 @@ struct BackendlessUtils {
         })
     }
     
+    static func uploadVideo(video: Data, thumbnail: Data, result: @escaping (_ videoLink: String?, _ thumbnailLink: String?) -> ()) {
+        let dateString = Date().formatted()
+        let videoFileName = "/upload/\(dateString).mov"
+        let thumbnailFileName = "/upload/\(dateString).jpg"
+        
+        ProgressHUD.show("Sending video...")
+        
+        backendless?.file.uploadFile(thumbnailFileName, content: thumbnail, response: { thumbnailFile in
+          backendless?
+            .file
+            .uploadFile(videoFileName, content: video, response: { videoFile in
+                ProgressHUD.dismiss()
+                result(videoFile?.fileURL, thumbnailFile?.fileURL)
+            }, error: { fault in
+                if let fault = fault {
+                    ProgressHUD.showError("Error uploading video \(fault.detail ?? "")")
+                    result(nil, nil)
+                }
+            })
+            
+        }, error: { fault in
+            if let fault = fault {
+               ProgressHUD.showError("Error uploading thumbnail \(fault.detail ?? "")")
+                result(nil, nil)
+            }
+        })
+        
+        
+    }
+    
+    static func downloadVideo(videoUrlString: String,
+                       result: @escaping (_ isReadyToPlay: Bool, _ videoFileName: String) -> Void) {
+        guard let videoUrl = URL(string: videoUrlString),
+            let userToken = backendless?.userService.currentUser.getToken(),
+        let videoFileName = videoUrl.pathComponents.last  else {
+            ProgressHUD.showError("Invalid video URL!")
+            result(false, "")
+            return
+        }
+        
+        //check if the file was already downloaoded
+        if fileExistsAtPath(path: videoFileName) {
+            result(true, videoFileName)
+        } else {
+            //download it
+            let downloadQueue = DispatchQueue.init(label: "videoDownloadQueue")
+            var urlRequest = URLRequest(url: videoUrl)
+            urlRequest.setValue("\(userToken)", forHTTPHeaderField: "user-token")
+            let session = URLSession.shared
+            let dataTask = session.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
+                
+                guard error == nil else {
+                    ProgressHUD.showError("There was an error retrieving video file: \(error!.localizedDescription)")
+                    DispatchQueue.main.async {
+                        result(false, "")
+                    }
+                    return
+                }
+                
+                guard let responseCode = (response as? HTTPURLResponse)?.statusCode,
+                    200 ... 299 ~= responseCode else {
+                        ProgressHUD.showError("There was an error retrieving video file, status code: \((response as? HTTPURLResponse)?.statusCode ?? 0)")
+                        DispatchQueue.main.async {
+                            result(false, "")
+                        }
+                        return
+                }
+                if let data = data {
+                    var docURL = getDocumentsURL()
+                    docURL = docURL.appendingPathComponent(videoFileName, isDirectory: false)
+                    do {
+                        try data.write(to: docURL, options: .atomicWrite)
+                        DispatchQueue.main.async {
+                            result(true, videoFileName)
+                        }
+                    } catch {
+                        ProgressHUD.showError("There was an error saving video file to disk: \(error.localizedDescription)")
+                        DispatchQueue.main.async {
+                            result(false, "")
+                        }
+                        return
+                    }
+                    
+                } else {
+                    ProgressHUD.showError("No video in database")
+                    DispatchQueue.main.async {
+                        result(false, "")
+                    }
+                }
+                
+                
+            })
+            downloadQueue.async {
+                dataTask.resume()
+            }
+        }
+    }
+    
 }
 
 private let dateFormat = "yyyyMMddHHmmss"
@@ -85,6 +183,47 @@ func dateFormatter() -> DateFormatter {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = dateFormat
     return dateFormatter
+}
+
+func getThumbnailImage(for videoUrl: URL) -> UIImage? {
+    let asset = AVAsset(url: videoUrl)
+    let imageAssetGenerator = AVAssetImageGenerator(asset: asset)
+    
+    do {
+        let thumbnailCGImage =
+            try imageAssetGenerator.copyCGImage(at: CMTimeMake(value: 1, timescale: 60), actualTime: nil)
+        return UIImage(cgImage: thumbnailCGImage)
+    } catch let err {
+        print(err.localizedDescription)
+        return nil
+    }
+    
+}
+
+func getDocumentsURL() -> URL {
+    guard let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else {
+        fatalError("No documents directory!")
+    }
+    return documentURL
+}
+
+func fileInDocumentsDirectory(filename: String) -> String {
+    let fileURL = getDocumentsURL().appendingPathComponent(filename)
+    return fileURL.path
+}
+
+func fileExistsAtPath(path: String) -> Bool {
+    var doesExist = false
+    
+    let filePath = fileInDocumentsDirectory(filename: path)
+    let fileManager = FileManager.default
+    
+    if fileManager.fileExists(atPath: filePath) {
+        doesExist = true
+    }
+    
+    return doesExist
+    
 }
 
 extension Date {
